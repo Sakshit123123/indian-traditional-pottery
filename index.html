@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login / Create Account</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      background: #f4f6f9; 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      height: 100vh; 
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      width: 350px;
+      position: relative;
+    }
+    h2 { text-align: center; margin-bottom: 20px; color: #2c3e50; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    .input-container {
+      position: relative;
+    }
+    input {
+      width: 100%; padding: 10px; margin-top: 5px; 
+      border: 1px solid #ccc; border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 16px;
+      color: #2980b9;
+    }
+    button {
+      width: 100%; padding: 10px; margin-top: 15px;
+      border: none; border-radius: 5px; cursor: pointer;
+      background: #2980b9; color: white; font-size: 16px;
+    }
+    button:hover { background: #3498db; }
+    .switch { text-align: center; margin-top: 15px; font-size: 14px; }
+    .switch a { color: #2980b9; text-decoration: none; font-weight: bold; cursor:pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginSignupContainer">
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <h2>Login</h2>
+      <form onsubmit="return loginSuccess(event)">
+        <label>Email</label>
+        <input type="email" required>
+        
+        <label>Password</label>
+        <div class="input-container">
+          <input type="password" id="loginPass" required>
+          <span class="eye-icon" onclick="togglePassword('loginPass', this)">👁️</span>
+        </div>
+        
+        <button type="submit">Login</button>
+      </form>
+      <div class="switch">
+        Don’t have an account? <a onclick="showSignup()">Create Account</a>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" style="display:none;">
+      <h2>Create Account</h2>
+      <form onsubmit="return signupSuccess(event)">
+        <label>Full Name</label>
+        <input type="text" required>
+        
+        <label>Email</label>
+        <input type="email" required>
+        
+        <label>Mobile Number</label>
+        <input type="tel" pattern="[0-9]{10}" placeholder="10-digit number" required>
+        
+        <label>Password</label>
+        <div class="input-container">
+          <input type="password" id="signupPass" required>
+          <span class="eye-icon" onclick="togglePassword('signupPass', this)">👁️</span>
+        </div>
+        
+        <label>Confirm Password</label>
+        <div class="input-container">
+          <input type="password" id="signupConfirm" required>
+          <span class="eye-icon" onclick="togglePassword('signupConfirm', this)">👁️</span>
+        </div>
+        
+        <button type="submit">Sign Up</button>
+      </form>
+      <div class="switch">
+        Already have an account? <a onclick="showLogin()">Login</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Message Container -->
+  <div class="container" id="messageContainer" style="display:none;">
+    <h2 id="messageTitle"></h2>
+    <p id="messageText"></p>
+    <button onclick="backToLogin()">Back</button>
+  </div>
+
+<script>
+  function togglePassword(id, icon){
+    const pass = document.getElementById(id);
+    if(pass.type === "password"){
+      pass.type = "text";
+      icon.textContent = "🙈"; // Eye closed
+    } else {
+      pass.type = "password";
+      icon.textContent = "👁️"; // Eye open
+    }
+  }
+
+  function showSignup() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+  }
+  function showLogin() {
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+  }
+
+  function signupSuccess(e){
+    e.preventDefault();
+    document.getElementById("loginSignupContainer").style.display="none";
+    document.getElementById("messageContainer").style.display="block";
+    document.getElementById("messageTitle").innerText="Signup Successful!";
+    document.getElementById("messageText").innerText="Your account has been created successfully. Please login.";
+    return false;
+  }
+
+  function loginSuccess(e){
+    e.preventDefault();
+    document.getElementById("loginSignupContainer").style.display="none";
+    document.getElementById("messageContainer").style.display="block";
+    document.getElementById("messageTitle").innerText="Login Successful!";
+    document.getElementById("messageText").innerText="You have successfully logged in.";
+    return false;
+  }
+
+  function backToLogin(){
+    document.getElementById("messageContainer").style.display="none";
+    showLogin();
+    document.getElementById("loginSignupContainer").style.display="block";
+  }
+</script>
+
+</body>
+</html>
